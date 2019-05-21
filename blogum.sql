@@ -164,7 +164,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `title`, `description`, `keywords`, `link`, `email`, `aboutme`, `smtphost`, `smtpport`, `encryption`, `smtpusername`, `smtppassword`, `myskills`) VALUES
-(1, 'Blogum', 'Deneme', 'deneme', 'http://localhost/blogum/', 'baydoganmirac@gmail.com', 'asdasdasd', '', '', '', '', '', '');
+(1, 'Blogum', 'Deneme', 'deneme', 'http://localhost/', 'baydoganmirac@gmail.com', 'asdasdasd', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
