@@ -1,0 +1,10 @@
+# Yönlendirmeleri aktif eder
+RewriteEngine on
+ 
+# Yeni bir yönlendirme kuralı ekliyoruz
+RewriteRule ^([0-9a-zA-Z-_]+)/([0-9a-zA-Z-_]+).html$  index.php?page=post&category=$1&sef=$2 [L,QSA]
+RewriteRule ^([0-9a-zA-Z-_]+).html$  index.php?page=$1 [L,QSA]
+
+RewriteRule ^admin/$  admin/ [L,QSA]
+RewriteRule ^install/$  install/ [L,QSA]
+RewriteRule ^([0-9a-zA-Z-_]+)/$  index.php?page=kategori&category=$1 [L,QSA]

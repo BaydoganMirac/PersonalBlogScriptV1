@@ -1,0 +1,77 @@
+ <?php
+function seo($s) {
+$tr = array('ş','Ş','İ','I','ı','ğ','Ğ','Ü','ü','ö','Ö','ç','Ç','(',')','/',':',',');
+$eng = array('s','s','i','i','i','g','g','u','u','o','o','c','c','','','-','-','');
+$s = str_replace($tr,$eng,$s);
+$s = strtolower($s);
+$s = preg_replace('/&amp;amp;amp;amp;amp;amp;amp;amp;amp;.+?;/', '', $s);
+$s = preg_replace('/\s+/', '-', $s);
+$s = preg_replace('|-+|', '-', $s);
+$s = preg_replace('/#/', '', $s);
+$s = str_replace('.', '', $s);
+$s = trim($s, '-');
+return $s;
+}
+function GetIP(){
+  if(getenv("HTTP_CLIENT_IP")) {
+    $ip = getenv("HTTP_CLIENT_IP");
+  } elseif(getenv("HTTP_X_FORWARDED_FOR")) {
+    $ip = getenv("HTTP_X_FORWARDED_FOR");
+    if (strstr($ip, ',')) {
+      $tmp = explode (',', $ip);
+      $ip = trim($tmp[0]);
+    }
+  } else {
+  $ip = getenv("REMOTE_ADDR");
+  }
+  return $ip;
+}
+
+function okunmaekle($id){
+  $ip = GetIP();
+    if (!isset($_COOKIE[$ip])) {
+    setcookie($ip,"0");
+  }else{
+     if ($_COOKIE[$ip]==0) {
+      $addread = mysql_query("UPDATE article SET article_readcount=article_readcount+1 WHERE id='$id' ORDER BY id ASC LIMIT 1");
+      setcookie($ip,"1");
+    }
+  }
+}
+
+function article_link($category, $seo){
+  $seoofcategory = seo($category);
+  $sitelink = mysql_fetch_assoc(mysql_query("SELECT * FROM settings"));
+  $link = $sitelink["link"]."".$seoofcategory."/".$seo.".html";
+  return $link;
+}
+function encok5(){
+        $encok_okunan = mysql_query("SELECT * FROM article ORDER BY article_readcount DESC LIMIT 5");
+        while($encok = mysql_fetch_assoc($encok_okunan)){
+  ?>
+      <a class="uk-link-reset" href="<?=article_link($encok["article_category"], $encok["article_seo"]);?>"><span uk-icon="icon : check"></span><span class="float-left" style="margin-left:15px; text-shadow: 2px 2px 5px #7e4d7e;"><?=$encok["article_title"]?></span><br /></a>
+      <?php                  
+}
+}
+function IPKaydet(){
+  $ipcek = GetIP();
+  $sorgu = mysql_num_rows(mysql_query("SELECT * FROM hit WHERE IP='$ipcek'"));
+    if($sorgu==0){
+      $IPKaydet = mysql_query("INSERT INTO hit (IP, count) values ('$ipcek', '0')");
+    }
+}
+function addhit(){
+  $ipcek = GetIP();
+  $hitekle = mysql_query("UPDATE hit SET count=count+1 WHERE IP='$ipcek' LIMIT 1");
+}
+function tarihfarki($t1_timestamp){
+  $t2_timestamp = time();
+    if ($t1_timestamp > $t2_timestamp) {
+        $result = round(($t1_timestamp - $t2_timestamp) / 86400);
+    } else
+        if ($t2_timestamp > $t1_timestamp) {
+            $result = round(($t2_timestamp - $t1_timestamp) / 86400);
+        }
+        return $result;
+}
+?>
