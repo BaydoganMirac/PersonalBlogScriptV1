@@ -17,7 +17,7 @@
 
 ## How To Install
 1. Create a database
-2. Import blogu.sql
+2. Import blogum.sql
 3. Edit  "src/config.db.php"
 ```php
 $host               = "yourhostname";
