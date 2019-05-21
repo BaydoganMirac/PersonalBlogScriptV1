@@ -15,7 +15,7 @@
 - PHP 5.6
 - MySQL
 
-##How To Install
+## How To Install
 1. Create a database
 2. Import blogu.sql
 3. Edit  "src/config.db.php"
