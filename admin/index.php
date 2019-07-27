@@ -24,12 +24,12 @@ if(!isset($_SESSION["BaydoganMirac-Admin"])){
     <meta name="designer" content="Miraç Baydoğan" />
     <meta name="email" content="baydoganmirac@gmail.com" />
     <meta name="reply-to" content="baydoganmirac@gmail.com" />
-    <link rel="stylesheet" href="<?=$sitelink?>css/uikit.min.css" />
-    <script src="<?=$sitelink?>js/uikit.min.js"></script>
-    <script src="<?=$sitelink?>js/uikit-icons.min.js"></script>
-    <script src="<?=$sitelink?>js/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?=$sitelink?>css/themes/flat/style.css" />
-    <script type="text/javascript" src="<?=$sitelink?>js/cazary.min.js"></script>
+    <link rel="stylesheet" href="../css/uikit.min.css" />
+    <script src="../js/uikit.min.js"></script>
+    <script src="../js/uikit-icons.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/themes/flat/style.css" />
+    <script type="text/javascript" src="../js/cazary.min.js"></script>
 
 	<script type="text/javascript">
 		(function($, window)
