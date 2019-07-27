@@ -21,10 +21,10 @@ include("../src/functions.php");
         <meta name="designer" content="Miraç Baydoğan" />
         <meta name="email" content="baydoganmirac@gmail.com" />
         <meta name="reply-to" content="baydoganmirac@gmail.com" />
-        <link rel="stylesheet" href="<?=$sitelink?>css/uikit.min.css" />
-        <script src="<?=$sitelink?>js/uikit.min.js"></script>
-        <script src="<?=$sitelink?>js/uikit-icons.min.js"></script>
-        <script src="<?=$sitelink?>js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="../css/uikit.min.css" />
+        <script src="../js/uikit.min.js"></script>
+        <script src="../js/uikit-icons.min.js"></script>
+        <script src="../js/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
   function signin(){
             var admin_username  = $("#signin #adminusername").val();
@@ -43,7 +43,7 @@ include("../src/functions.php");
               }else{
                           $.ajax({       
                               type: "POST",
-                              url:  "<?=$sitelink?>admin/ajax.php",
+                              url:  "ajax.php",
                               data : {type:'signin', admin_username:admin_username,admin_password:admin_password},
                               success: function(sonuc){
                                 if(sonuc == 1){
