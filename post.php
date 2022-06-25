@@ -1,7 +1,7 @@
 <?php
                 $gelensef   = $_GET["sef"];
-                $sor = mysql_query("SELECT * FROM article WHERE article_seo='$gelensef' LIMIT 1");
-                $kayitlar=@mysql_fetch_assoc($sor);
+                $sor = mysqli_query("SELECT * FROM article WHERE article_seo='$gelensef' LIMIT 1");
+                $kayitlar=@mysqli_fetch_assoc($sor);
                     $Article_image          = $kayitlar["article_image"];
                     $Article_seo            = $kayitlar["article_seo"];
                     $Article_date           = $kayitlar["article_date"];
@@ -79,14 +79,14 @@
       </div>
         <div class="uk-container" style="margin-top: 40px;">
           <?php
-          $soryorum = mysql_query("SELECT * FROM comments WHERE comments_articleid='$Article_id' && comments_confirmation=1 && comments_replyid=0 ORDER BY comments_datestamp DESC");
-          while($yorum=@mysql_fetch_assoc($soryorum)){
+          $soryorum = mysqli_query("SELECT * FROM comments WHERE comments_articleid='$Article_id' && comments_confirmation=1 && comments_replyid=0 ORDER BY comments_datestamp DESC");
+          while($yorum=@mysqli_fetch_assoc($soryorum)){
               $Comments_usersid          = $yorum["comments_usersid"];
               $Comments_id          = $yorum["id"];
               $Comments_content           = $yorum["comments_content"];
               $Comments_date         = $yorum["comments_date"];
               $Comments_replyid       = $yorum["comments_replyid"];
-              $kullanicicek = @mysql_fetch_assoc(mysql_query("SELECT * FROM users WHERE id='$Comments_usersid' LIMIT 1"));
+              $kullanicicek = @mysqli_fetch_assoc(mysqli_query("SELECT * FROM users WHERE id='$Comments_usersid' LIMIT 1"));
 
           ?>
         <ul class="uk-comment-list">
@@ -125,14 +125,14 @@
                     </div>
                 </article>
                 <?php
-                  $soraltyorum = mysql_query("SELECT * FROM comments WHERE comments_articleid='$Article_id' && comments_confirmation=1 && comments_replyid='$Comments_id' ORDER BY comments_datestamp DESC");
-                  while($altyorum=@mysql_fetch_assoc($soraltyorum)){
+                  $soraltyorum = mysqli_query("SELECT * FROM comments WHERE comments_articleid='$Article_id' && comments_confirmation=1 && comments_replyid='$Comments_id' ORDER BY comments_datestamp DESC");
+                  while($altyorum=@mysqli_fetch_assoc($soraltyorum)){
                       $Commentss_usersid          = $altyorum["comments_usersid"];
                       $Commentss_id          = $altyorum["id"];
                       $Commentss_content           = $altyorum["comments_content"];
                       $Commentss_date         = $altyorum["comments_date"];
                       $Commentss_replyid       = $altyorum["comments_replyid"];
-                      $kullanicicekalt = @mysql_fetch_assoc(mysql_query("SELECT * FROM users WHERE id='$Commentss_usersid' LIMIT 1"));
+                      $kullanicicekalt = @mysqli_fetch_assoc(mysqli_query("SELECT * FROM users WHERE id='$Commentss_usersid' LIMIT 1"));
 
                 ?>
                 <ul>

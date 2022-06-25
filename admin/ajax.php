@@ -7,9 +7,9 @@ if($_POST){
 		if($_POST["type"]=='signin'){
 			$admin_username = trim(htmlspecialchars(addslashes($_POST["admin_username"])));
 			$admin_pw = md5(trim(htmlspecialchars(addslashes($_POST["admin_password"]))));
-			$baglan = mysql_query("SELECT * FROM admins WHERE adminusername='$admin_username' and adminpassword='$admin_pw' ORDER BY id DESC LIMIT 1");
-			if(mysql_num_rows($baglan)){
-				$cekverileri = mysql_fetch_assoc($baglan);
+			$baglan = mysqli_query("SELECT * FROM admins WHERE adminusername='$admin_username' and adminpassword='$admin_pw' ORDER BY id DESC LIMIT 1");
+			if(mysqli_num_rows($baglan)){
+				$cekverileri = mysqli_fetch_assoc($baglan);
 				$_SESSION["BaydoganMirac-Admin"] = $cekverileri["adminusername"];
 				echo "1";
 			}else{
@@ -22,8 +22,8 @@ if($_POST){
     $pageCount = $_POST["pageCount"];
     $baslangic = ($activePage-1) * $pageCount;
     
-    $sor = mysql_query("SELECT * FROM article ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-        while($row=@mysql_fetch_assoc($sor)){
+    $sor = mysqli_query("SELECT * FROM article ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+        while($row=@mysqli_fetch_assoc($sor)){
     		$Article_id				= $row["id"];
 	    	$Article_image          = $row["article_image"];
             $Article_seo            = $row["article_seo"];
@@ -69,12 +69,12 @@ if($_POST){
 	// Yazı Silme	
     if($_POST["type"]=='articledelete'){
 			$gelenid		=	$_POST["article_id"];
-			$kaydabak		=	mysql_fetch_assoc(mysql_query("SELECT * FROM article WHERE id='$gelenid'"));
+			$kaydabak		=	mysqli_fetch_assoc(mysqli_query("SELECT * FROM article WHERE id='$gelenid'"));
 			$makaleresmine	=	$kaydabak["article_image"];
 			$dosyayolu		= 	"../img/article_img/".$makaleresmine;
 			$resimsil		=	@unlink("$dosyayolu");
 				if($resimsil){
-					$kayitsil	=	mysql_query("DELETE FROM article WHERE id='$gelenid' ORDER BY id ASC LIMIT 1");
+					$kayitsil	=	mysqli_query("DELETE FROM article WHERE id='$gelenid' ORDER BY id ASC LIMIT 1");
 						if($kayitsil){
 							echo "1";
 						}else{
@@ -92,12 +92,12 @@ if($_POST){
 			$lastcategory	 	= htmlspecialchars(addslashes($_POST["lastcategory"]));
 			$newcategory	 	= htmlspecialchars(addslashes($_POST["newcategory"]));
 			$articleseo 		= seo($articletitle);
-			$update				= mysql_query("UPDATE article SET article_title='$articletitle', article_content='$articlecontent', article_seo='$articleseo'  WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
+			$update				= mysqli_query("UPDATE article SET article_title='$articletitle', article_content='$articlecontent', article_seo='$articleseo'  WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
 			if($update){
 				if($lastcategory==$newcategory){
 					echo "1";
 				}else{
-					$updatecategory = mysql_query("UPDATE article SET article_category='$newcategory' WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
+					$updatecategory = mysqli_query("UPDATE article SET article_category='$newcategory' WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
 					if($updatecategory){
 						echo "1";
 					}else{
@@ -113,7 +113,7 @@ if($_POST){
 
 
 /*
-									$makaleyorumekle = mysql_query("UPDATE article SET numberofcomment=numberofcomment+1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
+									$makaleyorumekle = mysqli_query("UPDATE article SET numberofcomment=numberofcomment+1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
 										if($makaleyorumekle){
 											echo "1";
 										}else{
@@ -127,8 +127,8 @@ if($_POST){
     $pageCount = $_POST["pageCount"];
     $baslangic = ($activePage-1) * $pageCount;
     
-    $sor = mysql_query("SELECT * FROM users ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-        while($row=@mysql_fetch_assoc($sor)){
+    $sor = mysqli_query("SELECT * FROM users ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+        while($row=@mysqli_fetch_assoc($sor)){
     		$users_id				= $row["id"];
 	    	$users_username         = $row["users_username"];
             $users_password         = $row["users_password"];
@@ -168,7 +168,7 @@ if($_POST){
 	// Kullanıcı Silme	
     if($_POST["type"]=='usersdelete'){
 			$gelenid		=	$_POST["userid"];
-			$kayitsil	=	mysql_query("DELETE FROM users WHERE id='$gelenid' ORDER BY id ASC LIMIT 1");
+			$kayitsil	=	mysqli_query("DELETE FROM users WHERE id='$gelenid' ORDER BY id ASC LIMIT 1");
 				if($kayitsil){
 					echo "1";
 				}else{
@@ -186,7 +186,7 @@ if($_POST){
 			$smtpusername   	= $_POST["smtpusername"];
 			$smtppassword   	= $_POST["smtppassword"];
 			$aboutme			= addslashes($_POST["aboutme"]);
-			$update				= mysql_query("UPDATE settings SET title='$sitetitle', description='$sitedescription', keywords='$sitekeywords', email='$sitemail' , smtphost='$smtphost', smtpport='$smtpport', encryption='$encryption', smtpusername='$smtpusername', smtppassword='$smtppassword', aboutme='$aboutme'  WHERE id=1 ORDER BY id ASC LIMIT 1");
+			$update				= mysqli_query("UPDATE settings SET title='$sitetitle', description='$sitedescription', keywords='$sitekeywords', email='$sitemail' , smtphost='$smtphost', smtpport='$smtpport', encryption='$encryption', smtpusername='$smtpusername', smtppassword='$smtppassword', aboutme='$aboutme'  WHERE id=1 ORDER BY id ASC LIMIT 1");
 			if($update){
 				echo "1";
 			}else{
@@ -200,8 +200,8 @@ if($_POST){
 		    $pageCount = $_POST["pageCount"];
 		    $baslangic = ($activePage-1) * $pageCount;
 		    
-		    $sor = mysql_query("SELECT * FROM admins ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-		        while($row=@mysql_fetch_assoc($sor)){
+		    $sor = mysqli_query("SELECT * FROM admins ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+		        while($row=@mysqli_fetch_assoc($sor)){
 		    		$adminid				= $row["id"];
 			    	$adminname         		= $row["adminname"];
 		            $adminusername        	= $row["adminusername"];
@@ -223,7 +223,7 @@ if($_POST){
 					if ($gelenid == 1) {
 						echo "Silinemedi";
 					}else{
-						$kayitsil	=	mysql_query("DELETE FROM admins WHERE id='$gelenid' ORDER BY id ASC LIMIT 1");
+						$kayitsil	=	mysqli_query("DELETE FROM admins WHERE id='$gelenid' ORDER BY id ASC LIMIT 1");
 						if($kayitsil){
 							echo "1";
 						}else{
@@ -236,9 +236,9 @@ if($_POST){
 				$adminusername = htmlspecialchars($_POST["adminusername"]);
 				$adminname = htmlspecialchars($_POST["adminname"]);
 				$adminpassword = md5(htmlspecialchars($_POST["adminpassword"]));
-				$sorgu = mysql_num_rows(mysql_query("SELECT * FROM admins WHERE adminusername='$adminusername'"));
+				$sorgu = mysqli_num_rows(mysqli_query("SELECT * FROM admins WHERE adminusername='$adminusername'"));
 				if($sorgu==0){
-					$kaydet = mysql_query("INSERT INTO admins (adminusername, adminname, adminpassword) VALUES ('$adminusername', '$adminname', '$adminpassword')");
+					$kaydet = mysqli_query("INSERT INTO admins (adminusername, adminname, adminpassword) VALUES ('$adminusername', '$adminname', '$adminpassword')");
 					if($kaydet){
 						echo "1";
 					}else{
@@ -251,7 +251,7 @@ if($_POST){
 			// Kategori Ekle
 			if($_POST["type"] == "addcategory"){
 				$categoryname = htmlspecialchars(trim(addslashes($_POST["categoryname"])));
-				$add = mysql_query("INSERT INTO category (categoryname) VALUES ('$categoryname')");
+				$add = mysqli_query("INSERT INTO category (categoryname) VALUES ('$categoryname')");
 					if($add){
 						echo "1";
 					}else{
@@ -264,8 +264,8 @@ if($_POST){
 		    $pageCount = $_POST["pageCount"];
 		    $baslangic = ($activePage-1) * $pageCount;
 		    
-		    $sor = mysql_query("SELECT * FROM category ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-		        while($row=@mysql_fetch_assoc($sor)){
+		    $sor = mysqli_query("SELECT * FROM category ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+		        while($row=@mysqli_fetch_assoc($sor)){
 		    		$categoryid				= $row["id"];
 		    		$categoryname			= $row["categoryname"];
 		            ?>
@@ -273,7 +273,7 @@ if($_POST){
 				    <li>
 				    	<span><?=$categoryname?><b>
 				    		<?php 
-				    		$say  = mysql_num_rows(mysql_query("SELECT * FROM article WHERE article_category='$categoryname'"));
+				    		$say  = mysqli_num_rows(mysqli_query("SELECT * FROM article WHERE article_category='$categoryname'"));
 				    		echo $say;
 				    		?>
 				    	</b></span>
@@ -286,7 +286,7 @@ if($_POST){
 			// Kategori Silme
 			if($_POST["type"]=="deletecategory"){
 				$categoryid = $_POST["categoryid"];
-				$delete = mysql_query("DELETE FROM category WHERE id='$categoryid' ORDER BY id DESC LIMIT 1");
+				$delete = mysqli_query("DELETE FROM category WHERE id='$categoryid' ORDER BY id DESC LIMIT 1");
 					if($delete){
 						echo "1";
 					}else{
@@ -308,11 +308,11 @@ if($_POST){
 									if(is_uploaded_file($_FILES["file"]["tmp_name"])){
 										$ok = move_uploaded_file($_FILES["file"]["tmp_name"], $filePath);
 										if ($ok) {
-											$picture = mysql_fetch_assoc(mysql_query("SELECT * FROM article WHERE id='$articleid' ORDER BY id DESC LIMIT 1"));
+											$picture = mysqli_fetch_assoc(mysqli_query("SELECT * FROM article WHERE id='$articleid' ORDER BY id DESC LIMIT 1"));
 
 											$oldpicdelete = unlink("../img/article_img/".$picture["article_image"]);
 											if ($oldpicdelete) {
-												$articleupdate = mysql_query("UPDATE article SET article_image='$newFileName' WHERE id='$articleid' ORDER BY id DESC LIMIT 1");
+												$articleupdate = mysqli_query("UPDATE article SET article_image='$newFileName' WHERE id='$articleid' ORDER BY id DESC LIMIT 1");
 												if ($articleupdate) {
 													echo "<div class='uk-alert-success' uk-alert><a class='uk-alert-close' uk-close></a><p>Fotoğraf Güncellemesi Başarılı</p></div>";
 												} else {
@@ -367,7 +367,7 @@ if($_POST){
 										$date			=	date("d.m.Y H:i:s");
 										$outhor 		= $_SESSION["BaydoganMirac-Admin"];
 										$seo 			= seo($articletitle);
-										$save = mysql_query("INSERT INTO article (article_title, article_author, article_content, article_image, article_datestamp, article_date, article_seo, article_category, article_readcount, numberofcomment) VALUES ('$articletitle', '$outhor', '$articlecontent', '$newFileName', '$datestamp', '$date', '$seo', '$category', 0, 0)");
+										$save = mysqli_query("INSERT INTO article (article_title, article_author, article_content, article_image, article_datestamp, article_date, article_seo, article_category, article_readcount, numberofcomment) VALUES ('$articletitle', '$outhor', '$articlecontent', '$newFileName', '$datestamp', '$date', '$seo', '$category', 0, 0)");
 											if($save){
 												echo "1";
 											}else{
@@ -390,8 +390,8 @@ if($_POST){
 		    $pageCount = $_POST["pageCount"];
 		    $baslangic = ($activePage-1) * $pageCount;
 		    
-		    $sor = mysql_query("SELECT * FROM slideshow ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-		        while($row=@mysql_fetch_assoc($sor)){
+		    $sor = mysqli_query("SELECT * FROM slideshow ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+		        while($row=@mysqli_fetch_assoc($sor)){
 		    		$id				= $row["id"];
 		    		$image			= $row["slideimage"];
 		            ?>
@@ -408,11 +408,11 @@ if($_POST){
 			// Slide Show Silme
 			if($_POST["type"]=="deleteslideshow"){
 				$slideid = $_POST["slideid"];
-				$pic = mysql_fetch_assoc(mysql_query("SELECT * FROM slideshow WHERE id='$slideid' ORDER BY id DESC LIMIT 1"));
+				$pic = mysqli_fetch_assoc(mysqli_query("SELECT * FROM slideshow WHERE id='$slideid' ORDER BY id DESC LIMIT 1"));
 				$path = "../img/slideshow/".$pic["slideimage"];
 				$deletepicture = unlink($path);
 				if ($deletepicture) {
-						$delete = mysql_query("DELETE FROM slideshow WHERE id='$slideid' ORDER BY id DESC LIMIT 1");
+						$delete = mysqli_query("DELETE FROM slideshow WHERE id='$slideid' ORDER BY id DESC LIMIT 1");
 					if($delete){
 						echo "1";
 					}else{
@@ -437,7 +437,7 @@ if($_POST){
 									if(is_uploaded_file($_FILES["file"]["tmp_name"])){
 										$ok = move_uploaded_file($_FILES["file"]["tmp_name"], $filePath);
 										if ($ok) {
-											$DBSave = mysql_query("INSERT INTO slideshow (slideimage) VALUES ('$newFileName')");
+											$DBSave = mysqli_query("INSERT INTO slideshow (slideimage) VALUES ('$newFileName')");
 												if ($DBSave) {
 													echo "<div class='uk-alert-success' uk-alert><a class='uk-alert-close' uk-close></a><p>Slayt Başarıyla Yüklendi</p></div>";
 												} else {
@@ -464,13 +464,13 @@ if($_POST){
 		    $pageCount = $_POST["pageCount"];
 		    $baslangic = ($activePage-1) * $pageCount;
 		    
-		    $sor = mysql_query("SELECT * FROM comments WHERE comments_confirmation=1 ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-		        while($row=@mysql_fetch_assoc($sor)){
+		    $sor = mysqli_query("SELECT * FROM comments WHERE comments_confirmation=1 ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+		        while($row=@mysqli_fetch_assoc($sor)){
 		        	$commentid				= $row["id"];
 		        	$comments_articleid		= $row["comments_articleid"];
-		        	$article 				= mysql_fetch_assoc(mysql_query("SELECT * FROM article WHERE id='$comments_articleid' ORDER BY id DESC LIMIT 1"));
+		        	$article 				= mysqli_fetch_assoc(mysqli_query("SELECT * FROM article WHERE id='$comments_articleid' ORDER BY id DESC LIMIT 1"));
 		        	$comments_usersid		= $row["comments_usersid"];
-		        	$user 					= mysql_fetch_assoc(mysql_query("SELECT * FROM users WHERE id='$comments_usersid' ORDER BY id DESC LIMIT 1"));
+		        	$user 					= mysqli_fetch_assoc(mysqli_query("SELECT * FROM users WHERE id='$comments_usersid' ORDER BY id DESC LIMIT 1"));
 		        	$comments_content		= $row["comments_content"];
 		        	$comments_date			= $row["comments_date"];
 		        	$comments_datestamp			= $row["comments_datestamp"];
@@ -522,14 +522,14 @@ if($_POST){
 		    $pageCount = $_POST["pageCount"];
 		    $baslangic = ($activePage-1) * $pageCount;
 		    
-		    $sor = mysql_query("SELECT * FROM comments WHERE comments_confirmation=0 ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-		        while($row=@mysql_fetch_assoc($sor)){
+		    $sor = mysqli_query("SELECT * FROM comments WHERE comments_confirmation=0 ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+		        while($row=@mysqli_fetch_assoc($sor)){
 		        	$commentid				= $row["id"];
 		        	$comments_articleid		= $row["comments_articleid"];
-		        	$article 				= mysql_fetch_assoc(mysql_query("SELECT * FROM article WHERE id='$comments_articleid' ORDER BY id DESC LIMIT 1"));
+		        	$article 				= mysqli_fetch_assoc(mysqli_query("SELECT * FROM article WHERE id='$comments_articleid' ORDER BY id DESC LIMIT 1"));
 
 		        	$comments_usersid		= $row["comments_usersid"];
-		        	$user 					= mysql_fetch_assoc(mysql_query("SELECT * FROM users WHERE id='$comments_usersid' ORDER BY id DESC LIMIT 1"));
+		        	$user 					= mysqli_fetch_assoc(mysqli_query("SELECT * FROM users WHERE id='$comments_usersid' ORDER BY id DESC LIMIT 1"));
 		        	$comments_content		= $row["comments_content"];
 		        	$comments_date			= $row["comments_date"];
 		        	$comments_datestamp			= $row["comments_datestamp"];
@@ -579,14 +579,14 @@ if($_POST){
 				$commentid = $_POST["commentid"];
 				$articleid = $_POST["articleid"];
 
-			$sql = mysql_fetch_assoc(mysql_query("SELECT * FROM comments WHERE id='$commentid' ORDER BY id DESC LIMIT 1"));
+			$sql = mysqli_fetch_assoc(mysqli_query("SELECT * FROM comments WHERE id='$commentid' ORDER BY id DESC LIMIT 1"));
 
 					if($sql["comments_confirmation"]==1){
-					$articleupdate = mysql_query("UPDATE article SET numberofcomment=numberofcomment+1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
+					$articleupdate = mysqli_query("UPDATE article SET numberofcomment=numberofcomment+1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
 						if ($articleupdate) {
-							$update = mysql_query("UPDATE comments SET comments_replyid='0' WHERE comments_replyid='$commentid'");
+							$update = mysqli_query("UPDATE comments SET comments_replyid='0' WHERE comments_replyid='$commentid'");
 							if ($update) {
-								$delete = mysql_query("DELETE FROM comments WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
+								$delete = mysqli_query("DELETE FROM comments WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
 								if ($delete) {
 									echo "1";
 								} else {
@@ -599,9 +599,9 @@ if($_POST){
 							echo "6";
 						}						
 					}else{
-						$update = mysql_query("UPDATE comments SET comments_replyid='0' WHERE comments_replyid='$commentid'");
+						$update = mysqli_query("UPDATE comments SET comments_replyid='0' WHERE comments_replyid='$commentid'");
 						if ($update) {
-							$delete = mysql_query("DELETE FROM comments WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
+							$delete = mysqli_query("DELETE FROM comments WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
 							if ($delete) {
 								echo "1";
 							} else {
@@ -616,9 +616,9 @@ if($_POST){
 			if($_POST["type"]=="confirmcomment"){
 				$articleid = $_POST["articleid"];
 				$commentid = $_POST["commentid"];
-				$update = mysql_query("UPDATE comments SET comments_confirmation=1 WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
+				$update = mysqli_query("UPDATE comments SET comments_confirmation=1 WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
 				if ($update) {
-					$articleupdate = mysql_query("UPDATE article SET numberofcomment=numberofcomment+1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
+					$articleupdate = mysqli_query("UPDATE article SET numberofcomment=numberofcomment+1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
 						if ($articleupdate) {
 							echo "1";
 						} else {
@@ -633,9 +633,9 @@ if($_POST){
 			if($_POST["type"]=="unconfirmcomment"){
 				$commentid = $_POST["commentid"];
 				$articleid = $_POST["articleid"];
-				$update = mysql_query("UPDATE comments SET comments_confirmation=0 WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
+				$update = mysqli_query("UPDATE comments SET comments_confirmation=0 WHERE id='$commentid' ORDER BY id DESC LIMIT 1");
 				if ($update) {
-					$articleupdate = mysql_query("UPDATE article SET numberofcomment=numberofcomment-1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
+					$articleupdate = mysqli_query("UPDATE article SET numberofcomment=numberofcomment-1 WHERE id='$articleid' ORDER BY id ASC LIMIT 1");
 						if ($articleupdate) {
 							echo "1";
 						} else {

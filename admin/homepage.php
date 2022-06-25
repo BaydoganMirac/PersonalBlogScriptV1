@@ -1,14 +1,14 @@
 <?php  
-$userscount = mysql_num_rows(mysql_query("SELECT * FROM users"));
-$articlecount = mysql_num_rows(mysql_query("SELECT * FROM article"));
-$commentcount_confirmation = mysql_num_rows(mysql_query("SELECT * FROM comments WHERE comments_confirmation='1'"));
-$commentcount = mysql_num_rows(mysql_query("SELECT * FROM comments WHERE comments_confirmation='0'"));
-$admincount = mysql_num_rows(mysql_query("SELECT * FROM admins"));
-$visitorcount = mysql_num_rows(mysql_query("SELECT * FROM hit"));
-$categorycount = mysql_num_rows(mysql_query("SELECT * FROM category"));
+$userscount = mysqli_num_rows(mysqli_query("SELECT * FROM users"));
+$articlecount = mysqli_num_rows(mysqli_query("SELECT * FROM article"));
+$commentcount_confirmation = mysqli_num_rows(mysqli_query("SELECT * FROM comments WHERE comments_confirmation='1'"));
+$commentcount = mysqli_num_rows(mysqli_query("SELECT * FROM comments WHERE comments_confirmation='0'"));
+$admincount = mysqli_num_rows(mysqli_query("SELECT * FROM admins"));
+$visitorcount = mysqli_num_rows(mysqli_query("SELECT * FROM hit"));
+$categorycount = mysqli_num_rows(mysqli_query("SELECT * FROM category"));
 $adminusername = $_SESSION["BaydoganMirac-Admin"];
-$adminshares = mysql_num_rows(mysql_query("SELECT * FROM article WHERE article_author='$adminusername'"));
-$firstofcommentuser =mysql_fetch_assoc(mysql_query("SELECT * FROM users ORDER BY users_numberofcomment DESC LIMIT 1"));
+$adminshares = mysqli_num_rows(mysqli_query("SELECT * FROM article WHERE article_author='$adminusername'"));
+$firstofcommentuser =mysqli_fetch_assoc(mysqli_query("SELECT * FROM users ORDER BY users_numberofcomment DESC LIMIT 1"));
 ?>
 <center>    <h1>İstatistikler</h1></center>
 <hr>

@@ -13,7 +13,7 @@
 ## Requirements
 
 - PHP 5.6
-- MySQL
+- mysqli
 
 ## How To Install
 1. Create a database

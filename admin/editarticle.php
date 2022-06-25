@@ -42,8 +42,8 @@
 </script>
 <?php 
 $articleid = $_GET["id"];
-                $sor = mysql_query("SELECT * FROM article WHERE id='$articleid' LIMIT 1");
-                $kayitlar=@mysql_fetch_assoc($sor);
+                $sor = mysqli_query("SELECT * FROM article WHERE id='$articleid' LIMIT 1");
+                $kayitlar=@mysqli_fetch_assoc($sor);
                     $Article_image          = $kayitlar["article_image"];
                     $Article_seo            = $kayitlar["article_seo"];
                     $Article_date           = $kayitlar["article_date"];
@@ -54,12 +54,12 @@ $articleid = $_GET["id"];
                     $Article_numberofcomment= $kayitlar["numberofcomment"];
                     $Article_author         = $kayitlar["article_author"];
                     $Article_id             = $kayitlar["id"];
-    			$kategorisor = mysql_query("SELECT * FROM category");
+    			$kategorisor = mysqli_query("SELECT * FROM category");
  ?>
 <div class="uk-container">
 	<input class="uk-input uk-margin" type="text" id="articletitle" name="articletitle" value="<?=$Article_title?>">
 		<select class="uk-select uk-margin" id="newcategory">
-	<?php while($kategori = mysql_fetch_assoc($kategorisor)){
+	<?php while($kategori = mysqli_fetch_assoc($kategorisor)){
 		?>
         	<option
         	<?php 

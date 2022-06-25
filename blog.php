@@ -37,8 +37,8 @@
 
 
           <?php
-            $sorkategori = mysql_query("SELECT DISTINCT article_category FROM article  ORDER BY article_datestamp DESC");
-            while($kategori=@mysql_fetch_assoc($sorkategori)){
+            $sorkategori = mysqli_query("SELECT DISTINCT article_category FROM article  ORDER BY article_datestamp DESC");
+            while($kategori=@mysqli_fetch_assoc($sorkategori)){
                 $Article_category         = $kategori["article_category"];
          ?>
 
