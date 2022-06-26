@@ -2,8 +2,9 @@
 
             <ul class="uk-slideshow-items">
                 <?php 
-                $sqlslide = mysql_query("SELECT * FROM slideshow ORDER BY id DESC");
-                    while($slide=@mysql_fetch_assoc($sqlslide)){
+                include('src/config.db.php');
+                $sqlslide = mysqli_query($conn,"SELECT * FROM slideshow ORDER BY id DESC");
+                    while($slide=@mysqli_fetch_assoc($sqlslide)){
                 ?>
                 <li>
                     <div class="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
@@ -48,8 +49,9 @@ Yepyeni Tasarım düzeniyle ve birbirinden farklı tasarımlarla hedeflerinize u
         <div class="uk-container">
         <div class="uk-child-width-1-2 uk-child-width-1-3@s uk-grid-match uk-grid-large" uk-grid>
             <?php
-            $sor = mysql_query("SELECT * FROM article ORDER BY RAND() LIMIT 6 ");
-                while($row=@mysql_fetch_assoc($sor)){
+            include('src/config.db.php');
+            $sor = mysqli_query($conn,"SELECT * FROM article ORDER BY RAND() LIMIT 6 ");
+                while($row=@mysqli_fetch_assoc($sor)){
             
                 $Article_image          = $row["article_image"];
                 $Article_seo            = $row["article_seo"];

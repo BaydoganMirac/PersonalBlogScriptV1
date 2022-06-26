@@ -14,8 +14,8 @@ if($_POST){
     $pageCount = $_POST["pageCount"];
     $baslangic = ($activePage-1) * $pageCount;
     
-    $sor = mysql_query("SELECT * FROM article ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
-        while($row=@mysql_fetch_assoc($sor)){
+    $sor = mysqli_query("SELECT * FROM article ORDER BY id DESC LIMIT {$baslangic},{$pageCount}");
+        while($row=@mysqli_fetch_assoc($sor)){
     	
             $Article_seo            = $row["article_seo"];
             $Article_date           = $row["article_date"];
@@ -50,17 +50,17 @@ if($_POST){
 							echo "HATA Yorum Alınamadı";
 						}else{
 							if(@$_SESSION["BaydoganMirac-Admin"]){
-								$kayityap	=	@mysql_query("INSERT INTO comments (comments_articleid, comments_usersid, comments_content, comments_date, comments_datestamp, comments_confirmation, comments_replyid) values ('$articleid', '0', '$commentcontentedit', '$tarih', '$tarihdamgasi', '0', '$replycommentid')");
+								$kayityap	=	@mysqli_query("INSERT INTO comments (comments_articleid, comments_usersid, comments_content, comments_date, comments_datestamp, comments_confirmation, comments_replyid) values ('$articleid', '0', '$commentcontentedit', '$tarih', '$tarihdamgasi', '0', '$replycommentid')");
 								if($kayityap){
 									echo "1";
 								}else{
 									echo "2";
 								}
 							}else{
-							$kullanicibul = @mysql_fetch_assoc(mysql_query("SELECT * FROM users WHERE users_username='".$_SESSION["kullanici"]."' LIMIT 1"));
-							$kayityap	=	@mysql_query("INSERT INTO comments (comments_articleid, comments_usersid, comments_content, comments_date, comments_datestamp, comments_confirmation, comments_replyid) values ('$articleid', '".$kullanicibul["id"]."', '$commentcontentedit', '$tarih', '$tarihdamgasi', '0', '$replycommentid')");
+							$kullanicibul = @mysqli_fetch_assoc(mysqli_query("SELECT * FROM users WHERE users_username='".$_SESSION["kullanici"]."' LIMIT 1"));
+							$kayityap	=	@mysqli_query("INSERT INTO comments (comments_articleid, comments_usersid, comments_content, comments_date, comments_datestamp, comments_confirmation, comments_replyid) values ('$articleid', '".$kullanicibul["id"]."', '$commentcontentedit', '$tarih', '$tarihdamgasi', '0', '$replycommentid')");
 								if($kayityap){
-									$kaydetyorum = mysql_query("UPDATE users SET users_numberofcomment=users_numberofcomment+1 WHERE 
+									$kaydetyorum = mysqli_query("UPDATE users SET users_numberofcomment=users_numberofcomment+1 WHERE 
 										users_username='$kullaniciadi' ORDER BY id ASC LIMIT 1");
 									if($kaydetyorum){
 										echo "1";
@@ -80,9 +80,9 @@ if($_POST){
 		if($_POST["type"]=='signin'){
 			$signin_email = trim(htmlspecialchars(addslashes($_POST["userin_email"])));
 			$signin_pw = md5(trim(htmlspecialchars(addslashes($_POST["userin_password"]))));
-			$baglan = mysql_query("SELECT * FROM users WHERE users_email='$signin_email' and users_password='$signin_pw' ORDER BY id DESC LIMIT 1");
-			if(mysql_num_rows($baglan)){
-				$cekverileri = mysql_fetch_assoc($baglan);
+			$baglan = mysqli_query("SELECT * FROM users WHERE users_email='$signin_email' and users_password='$signin_pw' ORDER BY id DESC LIMIT 1");
+			if(mysqli_num_rows($baglan)){
+				$cekverileri = mysqli_fetch_assoc($baglan);
 				$_SESSION["kullanici"] = $cekverileri["users_username"];
 				echo "1";
 			}else{
@@ -99,9 +99,9 @@ if($_POST){
 			$tarihdamgasi		=	time();
 			$tarih				=	date("d.m.Y H:i:s");
 			$ip = GetIP();
-			$kullanicisor = mysql_num_rows(mysql_query("SELECT * FROM users WHERE users_username='$signup_username' and users_email='$signup_email'"));
+			$kullanicisor = mysqli_num_rows(mysqli_query("SELECT * FROM users WHERE users_username='$signup_username' and users_email='$signup_email'"));
 			if($kullanicisor==0){
-				$kaydet = mysql_query("INSERT INTO users (users_username, users_password, users_datestamp, users_date, users_ipno, users_website, users_numberofcomment, users_email) VALUES ('$signup_username', '$signup_pw', '$tarihdamgasi', '$tarih', '$ip', '$signup_website', '0', '$signup_email')");
+				$kaydet = mysqli_query("INSERT INTO users (users_username, users_password, users_datestamp, users_date, users_ipno, users_website, users_numberofcomment, users_email) VALUES ('$signup_username', '$signup_pw', '$tarihdamgasi', '$tarih', '$ip', '$signup_website', '0', '$signup_email')");
 				if($kaydet){
 					echo "1";
 				}else{

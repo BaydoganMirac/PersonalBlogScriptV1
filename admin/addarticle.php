@@ -46,8 +46,8 @@
 		<select class="uk-select uk-margin-small" name="category">
 
 	<?php 
-	$kategorisor = mysql_query("SELECT * FROM category");
-	while($kategori = mysql_fetch_assoc($kategorisor)){
+	$kategorisor = mysqli_query("SELECT * FROM category");
+	while($kategori = mysqli_fetch_assoc($kategorisor)){
 		?>
         	<option name="category" value="<?=$kategori["categoryname"]?>"><?=$kategori["categoryname"]?></option>
 	<?php

@@ -33,7 +33,7 @@ function okunmaekle($id){
     setcookie($ip,"0");
   }else{
      if ($_COOKIE[$ip]==0) {
-      $addread = mysql_query("UPDATE article SET article_readcount=article_readcount+1 WHERE id='$id' ORDER BY id ASC LIMIT 1");
+      $addread = mysqli_query("UPDATE article SET article_readcount=article_readcount+1 WHERE id='$id' ORDER BY id ASC LIMIT 1");
       setcookie($ip,"1");
     }
   }
@@ -41,28 +41,33 @@ function okunmaekle($id){
 
 function article_link($category, $seo){
   $seoofcategory = seo($category);
-  $sitelink = mysql_fetch_assoc(mysql_query("SELECT * FROM settings"));
+  $sitelink = mysqli_fetch_assoc(mysqli_query("SELECT * FROM settings"));
   $link = $sitelink["link"]."".$seoofcategory."/".$seo.".html";
   return $link;
 }
 function encok5(){
-        $encok_okunan = mysql_query("SELECT * FROM article ORDER BY article_readcount DESC LIMIT 5");
-        while($encok = mysql_fetch_assoc($encok_okunan)){
+        include('src/config.db.php');
+        $encok_okunan = mysqli_query($conn,"SELECT * FROM article ORDER BY article_readcount DESC LIMIT 5");
+        while($encok = mysqli_fetch_assoc($encok_okunan)){
   ?>
       <a class="uk-link-reset" href="<?=article_link($encok["article_category"], $encok["article_seo"]);?>"><span uk-icon="icon : check"></span><span class="float-left" style="margin-left:15px; text-shadow: 2px 2px 5px #7e4d7e;"><?=$encok["article_title"]?></span><br /></a>
       <?php                  
 }
 }
 function IPKaydet(){
+  include('config.db.php');
   $ipcek = GetIP();
-  $sorgu = mysql_num_rows(mysql_query("SELECT * FROM hit WHERE IP='$ipcek'"));
+  $query = "SELECT * FROM hit WHERE IP='$ipcek'";
+  $result = $conn->query($query);
+  $sorgu = mysqli_num_rows($result);
     if($sorgu==0){
-      $IPKaydet = mysql_query("INSERT INTO hit (IP, count) values ('$ipcek', '0')");
+      $IPKaydet = mysqli_query("INSERT INTO hit (IP, count) values ('$ipcek', '0')");
     }
 }
 function addhit(){
+  include('config.db.php');
   $ipcek = GetIP();
-  $hitekle = mysql_query("UPDATE hit SET count=count+1 WHERE IP='$ipcek' LIMIT 1");
+  $hitekle = mysqli_query($conn,"UPDATE hit SET count=count+1 WHERE IP='$ipcek' LIMIT 1");
 }
 function tarihfarki($t1_timestamp){
   $t2_timestamp = time();
