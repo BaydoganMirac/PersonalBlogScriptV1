@@ -12,7 +12,7 @@
 
 ## Requirements
 
-- PHP 5.6>=
+- PHP >=5.6
 - mysqli
 
 ## How To Install
